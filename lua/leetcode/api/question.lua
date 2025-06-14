@@ -96,7 +96,7 @@ function question.synced_code(qid, lang, cb)
     }
 
     local query = queries.synced_code
-    log.info(query)
+    log.info('Query' .. query)
     log.info(lang)
 
     utils.query(query, variables, {
