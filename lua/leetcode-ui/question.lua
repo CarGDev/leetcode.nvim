@@ -40,7 +40,6 @@ function Question:set_lines(code)
         return
     end
 
-    pcall(vim.cmd.undojoin)
     local s_i, e_i, lines = self:range()
     s_i = s_i or 1
     e_i = e_i or #lines
@@ -103,9 +102,10 @@ function Question:open_buffer(existed)
     if i then
         pcall(vim.cmd, ("%d,%dfold"):format(1, i))
     end
-
-    if existed then
-        self:set_lines(self:snippet(true) or "")
+  
+    log.info("Previous code found\ncache status " .. self.cache.status)
+    if existed and self.cache.status == "ac" then
+        self:reset_lines()
     end
 end
 
