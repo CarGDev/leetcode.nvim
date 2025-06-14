@@ -77,7 +77,8 @@ function Question:path()
     local existed = self.file:exists()
 
     if not existed then
-        self.file:write(self:snippet(), "w")
+        local code = self.cache.code or self:snippet()
+        self.file:write(code, "w")
     end
 
     return self.file:absolute(), existed

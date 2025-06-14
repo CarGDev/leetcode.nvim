@@ -90,7 +90,6 @@ function Renderer:map(mode, key, handler, opts) --
             self._.keymaps[key] = mode
         end
         vim.keymap.set(mode, key, handler, options)
-        vim.keymap.set(mode, key, handler, options)
     end
 end
 
