@@ -77,7 +77,6 @@ function Question:path()
     local existed = self.file:exists()
 
     if not existed then
-        local code = self.cache.code or self:snippet()
         self.file:write(code, "w")
     end
 
@@ -105,6 +104,8 @@ function Question:open_buffer(existed)
         pcall(vim.cmd, ("%d,%dfold"):format(1, i))
     end
 
+  
+    log.info("Previous code found\ncache status " .. self.cache.status)
     if existed and self.cache.status == "ac" then
         self:reset_lines()
     end
