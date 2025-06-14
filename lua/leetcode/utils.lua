@@ -144,4 +144,26 @@ function utils.with_version(v, with, without)
     return (vim.fn.has("nvim-" .. v) == 1 and with or without)()
 end
 
+function utils.get_lang_id(lang_slug)
+    -- Mapping of language slugs to their IDs
+    local lang_ids = {
+        python = 11,
+        python3 = 11,
+        java = 4,
+        cpp = 2,
+        c = 1,
+        csharp = 3,
+        javascript = 17,
+        typescript = 74,
+        ruby = 72,
+        swift = 37,
+        go = 21,
+        kotlin = 43,
+        rust = 46,
+        php = 8,
+        scala = 15,
+    }
+    return lang_ids[lang_slug] or 11 -- Default to Python if not found
+end
+
 return utils

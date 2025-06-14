@@ -2,7 +2,7 @@ local Description = require("leetcode-ui.split.description")
 local Console = require("leetcode-ui.layout.console")
 local Info = require("leetcode-ui.popup.info")
 local Object = require("nui.object")
-
+local question_api = require("leetcode.api.question")
 local api_question = require("leetcode.api.question")
 local utils = require("leetcode.utils")
 local ui_utils = require("leetcode-ui.utils")
@@ -104,12 +104,10 @@ function Question:open_buffer(existed)
         pcall(vim.cmd, ("%d,%dfold"):format(1, i))
     end
 
-    -- Try to get synced code first
-    local question_api = require("leetcode.api.question")
-    local utils = require("leetcode.utils")
     local lang_id = utils.get_lang_id(self.lang)
-    
+
     question_api.synced_code(self.q.id, lang_id, function(res, err)
+        log.info(res)
         if res and res.code then
             -- If we got synced code, use it
             self:set_lines(res.code)
