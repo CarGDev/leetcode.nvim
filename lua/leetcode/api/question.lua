@@ -86,4 +86,30 @@ function question.latest_submission(qid, lang, cb)
     utils.get(url, { callback = cb })
 end
 
+---@param qid integer
+---@param lang integer
+---@param cb function
+function question.synced_code(qid, lang, cb)
+    local variables = {
+        questionId = qid,
+        lang = lang
+    }
+
+    local query = queries.synced_code
+
+    utils.query(query, variables, {
+        callback = function(res, err)
+            if err then
+                return cb(nil, err)
+            end
+
+            if not res.data or not res.data.syncedCode then
+                return cb(nil, { msg = "No synced code found" })
+            end
+
+            cb(res.data.syncedCode)
+        end
+    })
+end
+
 return question

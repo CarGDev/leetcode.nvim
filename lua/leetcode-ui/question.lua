@@ -40,6 +40,7 @@ function Question:set_lines(code)
         return
     end
 
+    pcall(vim.cmd.undojoin)
     local s_i, e_i, lines = self:range()
     s_i = s_i or 1
     e_i = e_i or #lines
@@ -102,11 +103,23 @@ function Question:open_buffer(existed)
     if i then
         pcall(vim.cmd, ("%d,%dfold"):format(1, i))
     end
-  
-    log.info("Previous code found\ncache status " .. self.cache.status)
-    if existed and self.cache.status == "ac" then
-        self:reset_lines()
-    end
+
+    -- Try to get synced code first
+    local question_api = require("leetcode.api.question")
+    local utils = require("leetcode.utils")
+    local lang_id = utils.get_lang_id(self.lang)
+    
+    question_api.synced_code(self.q.id, lang_id, function(res, err)
+        if res and res.code then
+            -- If we got synced code, use it
+            self:set_lines(res.code)
+        else
+            -- Fall back to existing behavior
+            if existed and self.cache.status == "ac" then
+                self:reset_lines()
+            end
+        end
+    end)
 end
 
 ---@param before boolean
