@@ -104,10 +104,8 @@ function Question:open_buffer(existed)
         pcall(vim.cmd, ("%d,%dfold"):format(1, i))
     end
 
-  
-    log.info("Previous code found\ncache status " .. self.cache.status)
-    if existed and self.cache.status == "ac" then
-        self:reset_lines()
+    if existed then
+        self:set_lines(self:snippet(true) or "")
     end
 end
 
