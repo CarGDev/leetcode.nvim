@@ -179,4 +179,13 @@ queries.session_progress = [[
         }
     ]]
 
+queries.synced_code = [[
+    query syncedCode($questionId: Int!, $lang: Int!) {
+        syncedCode(questionId: $questionId, lang: $lang) {
+            timestamp
+            code
+        }
+    }
+]]
+
 return queries

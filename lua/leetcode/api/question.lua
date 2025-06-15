@@ -96,8 +96,6 @@ function question.synced_code(qid, lang, cb)
     }
 
     local query = queries.synced_code
-    log.info('Query' .. query)
-    log.info(lang)
 
     utils.query(query, variables, {
         callback = function(res, err)
@@ -108,7 +106,6 @@ function question.synced_code(qid, lang, cb)
             if not res.data or not res.data.syncedCode then
                 return cb(nil, { msg = "No synced code found" })
             end
-            log.info(res.data)
 
             cb(res.data.syncedCode)
         end

@@ -73,6 +73,22 @@ end
 function interpreter.run(submit, q, body, callback)
     local url = (submit and urls.submit or urls.interpret):format(q.q.title_slug)
 
+    -- Override code for submission from local file
+    if submit then
+        vim.cmd("wall") -- Save all buffers
+        local file_path = vim.fn.stdpath("cache") .. "/leetcode/" .. q.q.title_slug .. ".py"
+        local file = io.open(file_path, "r")
+        if file then
+            local file_content = file:read("*a")
+            file:close()
+            if file_content and file_content ~= "" then
+                local decoded_body = type(body) == "string" and vim.json.decode(body) or body
+                decoded_body.code = file_content
+                body = vim.json.encode(decoded_body)
+            end
+        end
+    end
+
     interpreter.fetch(url, {
         body = body,
         callback = function(res, err)

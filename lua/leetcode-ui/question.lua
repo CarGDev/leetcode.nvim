@@ -108,7 +108,7 @@ function Question:open_buffer(existed)
 
     question_api.synced_code(self.q.id, lang_id, function(res, err)
         log.info(res)
-        if res and res.code then
+        if type(res) == "table" and res.code then
             -- If we got synced code, use it
             self:set_lines(res.code)
         else

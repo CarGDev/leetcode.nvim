@@ -49,6 +49,9 @@ function Runner:handle(submit)
             self:stop()
         end
 
+        log.info(item)
+        log.info(err)
+        log.info(state)
         if item then
             judge:stop(item.status_msg, item._.success)
         elseif state then
